@@ -1,7 +1,7 @@
-const JWT = require('jsonwebtoken');       // require jsonwebtoken
+const JWT = require('jsonwebtoken');       
 
 const jwtAuth = (req, res, next) => {
-    const token = (req.cookies && req.cookies.token) || null;   // take token from cookie
+    const token = (req.cookies && req.cookies.token) || null;  
 
     if(!token){
         return res.status(400).json({
@@ -11,7 +11,7 @@ const jwtAuth = (req, res, next) => {
     }
 
     try {
-        const payload = JWT.verify(token, process.env.SECRET);    // verify token
+        const payload = JWT.verify(token, process.env.SECRET);    
         req.user = {id : payload.id, email:payload.email };
 
     } catch (e) {
@@ -20,7 +20,7 @@ const jwtAuth = (req, res, next) => {
             message : e.message
         })
     }
-    next();    // from one process to another process i can go simltanously
+    next();    
 }
 
-module.exports = jwtAuth;     // for use in other
+module.exports = jwtAuth;     
