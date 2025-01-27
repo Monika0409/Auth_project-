@@ -1,5 +1,5 @@
-const userModel = require("../model/userSchema");   // require userSchema
-const emailValidator = require('email-validator');       // require emailvalidator
+const userModel = require("../model/userSchema");   
+const emailValidator = require('email-validator');      
 const bcrypt = require('bcrypt');
 
 const signup = async(req, res, next) => {
@@ -29,15 +29,15 @@ const signup = async(req, res, next) => {
     }
 
     try {
-        const useInfo = userModel(req.body);    // store in database 
-        const result = await useInfo.save();    // data is store in database
+        const useInfo = userModel(req.body);   
+        const result = await useInfo.save();   
     
         return res.status(200).json({
             success: true,
             data: result
         })
     } catch (e) {
-        if(e.code === 11000){         // 11000 code tell us for duplicate entry 
+        if(e.code === 11000){        
             return res.status(400).json({
                 success: false,
                 message: "Account already exist with provided email id"
@@ -75,15 +75,15 @@ const signin = async(req, res) => {
         })
     }
 
-    const token = user.jwtToken();   // generate token in controller
+    const token = user.jwtToken();   
     user.password = undefined;
 
-    const cookieOption = {            // create cookie
+    const cookieOption = {           
         maxAge: 24* 60 * 60 * 1000,
         httpOnly: true 
     };
 
-    res.cookie("token", token, cookieOption);    // set cookie using res.cookie
+    res.cookie("token", token, cookieOption);    
     res.status(200).json({
         success : true,
         data: user
@@ -138,4 +138,4 @@ module.exports = {
     signin,
     getUser,
     logout
-}                           // for use in other place
+}                         
