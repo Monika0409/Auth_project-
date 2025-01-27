@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');     // require mongoose
-const { Schema } = mongoose;      // create schema using mongoose
-const JWT = require('jsonwebtoken');  // require JWT token
-const bcrypt = require('bcrypt');     // require bcrypt 
+const mongoose = require('mongoose');    
+const { Schema } = mongoose;     
+const JWT = require('jsonwebtoken'); 
+const bcrypt = require('bcrypt');   
 
 const userSchema = new Schema({
     name: {
@@ -32,7 +32,7 @@ const userSchema = new Schema({
     timestamps: true
 });
 
-userSchema.pre('save', async function(next) {       // we use custom middleware  in this pre method is used
+userSchema.pre('save', async function(next) {       
     if(!this.isModified('password')){
         return next();
     }
@@ -42,13 +42,13 @@ userSchema.pre('save', async function(next) {       // we use custom middleware 
 
 userSchema.method = {
     jwtToken() {
-        return JWT.sign(       // method of JWT token
-            {id: this._id, email:this.email},  // data 
-            process.env.SECRET,                // secret token
-            { expiresIn: '24h'}                // for expirying token
+        return JWT.sign(       
+            {id: this._id, email:this.email},  
+            process.env.SECRET,               
+            { expiresIn: '24h'}               
         )
     }
-}                      // we define custome method for it
+}                     
 
-const userModel = mongoose.model('user', userSchema);   // create model using mongoose  (database collection is user  and data of collection is in form of schema)
-module.exports = userModel;    //  exports userModel
+const userModel = mongoose.model('user', userSchema);   
+module.exports = userModel;   
